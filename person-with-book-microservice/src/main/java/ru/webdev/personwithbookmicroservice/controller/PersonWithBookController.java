@@ -7,20 +7,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import ru.webdev.personwithbookmicroservice.model.Book;
 import ru.webdev.personwithbookmicroservice.model.Person;
+
 
 @RestController
 @RequestMapping("/reader")
 public class PersonWithBookController {
 
     @Autowired
-    public org.springframework.web.client.RestTemplate restTemplate;
+    public RestTemplate restTemplate;
 
     @GetMapping("/{personId}/{bookId}")
     public ResponseEntity<Person> reader(@PathVariable int personId, @PathVariable int bookId) {
-        Person person = restTemplate.getForObject("http:\\localhost:8082/person/" + personId, Person.class);
-        Book book  = restTemplate.getForObject("http:\\localhost:8081/book/"  + bookId, Book.class);
+        Person person = restTemplate.getForObject("http://localhost:8082/person/" + personId, Person.class);
+        Book book  = restTemplate.getForObject("http://localhost:8081/book/"  + bookId, Book.class);
         person.setBook(book);
         return new ResponseEntity<Person>(person, HttpStatus.OK);
     }
