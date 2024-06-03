@@ -21,8 +21,8 @@ public class PersonWithBookController {
 
     @GetMapping("/{personId}/{bookId}")
     public ResponseEntity<Person> reader(@PathVariable int personId, @PathVariable int bookId) {
-        Person person = restTemplate.getForObject("http://localhost:8082/person/" + personId, Person.class);
-        Book book  = restTemplate.getForObject("http://localhost:8081/book/"  + bookId, Book.class);
+        Person person = restTemplate.getForObject("http://person-microservice/person/" + personId, Person.class);
+        Book book  = restTemplate.getForObject("http://book-microservice/book/"  + bookId, Book.class);
         person.setBook(book);
         return new ResponseEntity<Person>(person, HttpStatus.OK);
     }
